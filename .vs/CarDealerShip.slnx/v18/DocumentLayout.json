@@ -1,0 +1,313 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\CarDealerShip\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\tradeimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\tradeimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\tradeinrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\tradeinrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\salesrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\salesrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\offer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\offer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\comment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\comment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\post.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\post.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\userfavorite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\userfavorite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\carimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\carimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\models\\branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\models\\branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|c:\\users\\user\\source\\repos\\cardealership\\cardealership\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E063AD6F-FDE3-0097-FB18-62E2F0975766}|CarDealerShip\\CarDealerShip.csproj|solutionrelative:cardealership\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TradeImage.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\TradeImage.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\TradeImage.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\TradeImage.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\TradeImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T11:04:22.62Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TradeInRequest.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\TradeInRequest.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\TradeInRequest.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\TradeInRequest.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\TradeInRequest.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAwwCAAAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T11:03:37.992Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SalesRecord.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\SalesRecord.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\SalesRecord.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\SalesRecord.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\SalesRecord.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T11:02:36.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\Order.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Order.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\Order.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAswCMAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T11:01:58.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Offer.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Offer.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\Offer.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Offer.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\Offer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T11:01:29.566Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Reservation.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Reservation.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\Reservation.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Reservation.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\Reservation.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABgAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T11:00:58.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Comment.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Comment.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\Comment.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Comment.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\Comment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T10:59:35.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Post.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Post.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\Post.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Post.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\Post.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T10:56:39.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserFavorite.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\UserFavorite.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\UserFavorite.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\UserFavorite.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\UserFavorite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T10:48:49.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "CarDealerShip\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAA8wCMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T07:41:09.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Branch.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Branch.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\Branch.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Branch.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\Branch.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T10:55:53.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CarImage.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\CarImage.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\CarImage.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\CarImage.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\CarImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T10:44:44.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Car.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Car.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\Car.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Car.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\Car.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T08:47:04.42Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\User.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\User.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\User.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAowAUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T08:40:15.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Role.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Role.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\Role.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\Role.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\Role.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T08:19:59.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "CarDealerShip\\Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T08:18:23.41Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Program.cs",
+              "RelativeDocumentMoniker": "CarDealerShip\\Program.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\CarDealerShip\\CarDealerShip\\Program.cs",
+              "RelativeToolTip": "CarDealerShip\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T07:42:13.516Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
