@@ -1,4 +1,6 @@
 using CarDealerShip.Data;
+using CarDealerShip.Repository;
+using CarDealerShip.Repository.RepositoryImpl;
 using CarDealerShip.Services;
 using CarDealerShip.Services.ServiceImpl;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -13,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //加入服務
 builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
 builder.Services.AddScoped<IDashboardService, DashboardServiceImpl>();
+builder.Services.AddScoped<IDashboardRepository, DashboardRepositoryImpl>();
 //加入 Cookie 驗證
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -47,8 +50,14 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
+    name: "root",
+    pattern: "",
+    defaults: new { controller = "Auth", action = "Login" })
+    .WithStaticAssets();
+
+app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Auth}/{action=Login}/{id?}")
+    pattern: "{controller}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

@@ -19,6 +19,9 @@ namespace CarDealerShip.Models
         [Required, MaxLength(50)]
         public string Model { get; set; } = null!;
 
+        [Required, MaxLength(20)]
+        public string Color { get; set; } = null!;
+
         public int ProductionYear { get; set; }
         public int Mileage { get; set; }
         public int Displacement { get; set; }

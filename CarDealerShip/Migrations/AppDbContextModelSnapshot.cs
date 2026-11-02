@@ -69,6 +69,11 @@ namespace CarDealerShip.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<decimal>("CostPrice")
                         .HasColumnType("decimal(10, 2)");
 
