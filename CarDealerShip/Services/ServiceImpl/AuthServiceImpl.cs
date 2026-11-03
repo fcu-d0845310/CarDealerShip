@@ -1,28 +1,23 @@
-﻿using CarDealerShip.Data;
-using CarDealerShip.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+﻿using CarDealerShip.Models;
+using CarDealerShip.Repository;
 
 namespace CarDealerShip.Services.ServiceImpl
 {
     public class AuthServiceImpl : IAuthService
     {
 
-        private readonly AppDbContext _appDbContext;
+        private readonly IAuthRepository _authRepository;
 
-        public AuthServiceImpl(AppDbContext appDbContext)
+        public AuthServiceImpl(IAuthRepository authRepository)
         {
-            _appDbContext = appDbContext;
+            _authRepository = authRepository;
         }
 
         public async Task<User?> ValidateUserAsync(string email, string password)
         {
-            var user = await _appDbContext.Users
-                .AsNoTracking()
-                .Include(x => x.Role)
-                .FirstOrDefaultAsync(x => x.Email == email && x.Role.Name == "Boss");
+            var user = await _authRepository.GetBossByEmailAsync(email);
 
-            if (user == null || user.Password.IsNullOrEmpty())
+            if (user == null || string.IsNullOrEmpty(user.Password))
             {
                 return null;
             }
@@ -31,6 +26,11 @@ namespace CarDealerShip.Services.ServiceImpl
                 return null;
             }
             return user;
-        }   
+        }
+
+        public async Task UpdateLastLoginAsync(int userId)
+        {
+            await _authRepository.UpdateLastLoginAsync(userId, DateTime.Now);
+        }
     }
 }

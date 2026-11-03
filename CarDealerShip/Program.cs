@@ -14,8 +14,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //加入服務
 builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
+builder.Services.AddScoped<IAuthRepository, AuthRepositoryImpl>();
 builder.Services.AddScoped<IDashboardService, DashboardServiceImpl>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepositoryImpl>();
+builder.Services.AddScoped<IPostService, PostServiceImpl>();
+builder.Services.AddScoped<IPostRepository, PostRepositoryImpl>();
 //加入 Cookie 驗證
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
