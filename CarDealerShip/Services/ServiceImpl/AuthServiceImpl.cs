@@ -25,12 +25,9 @@ namespace CarDealerShip.Services.ServiceImpl
             {
                 return null;
             }
+            await _authRepository.UpdateLastLoginAsync(user.Id, DateTime.Now);
             return user;
         }
 
-        public async Task UpdateLastLoginAsync(int userId)
-        {
-            await _authRepository.UpdateLastLoginAsync(userId, DateTime.Now);
-        }
     }
 }

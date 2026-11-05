@@ -19,6 +19,8 @@ builder.Services.AddScoped<IDashboardService, DashboardServiceImpl>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepositoryImpl>();
 builder.Services.AddScoped<IPostService, PostServiceImpl>();
 builder.Services.AddScoped<IPostRepository, PostRepositoryImpl>();
+builder.Services.AddScoped<ICommentService, CommentServiceImpl>();
+builder.Services.AddScoped<ICommentRepository, CommentRepositoryImpl>();
 //加入 Cookie 驗證
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

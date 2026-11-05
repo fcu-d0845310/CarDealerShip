@@ -41,8 +41,6 @@ namespace CarDealerShip.Controllers
                 return View(vm);
             }
 
-            await _authService.UpdateLastLoginAsync(user.Id);
-
             //使用cookie Authentication
             var claims = new List<Claim>
             {

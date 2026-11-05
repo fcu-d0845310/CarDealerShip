@@ -1,10 +1,183 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CarDealerShip.ViewModels.PostListViewModel
 @{
-    ViewData["Title"] = "Post";
+   
+    ViewData["Title"] = "文章管理";
+
+    var categories = CarDealerShip.Models.PostCategories.All;
+    //只顯示目前分頁的前後兩個頁碼
+    int startPage = Math.Max(1, Model.Page - 2);
+    int endPage = Math.Min(Model.TotalPages, Model.Page + 2);
 }
-@model CarDealerShip.ViewModels.PostListViewModel
+<style>
+    .post-row { background: #f4f4f5; transition: background .2s; }
+    .post-row:hover { background: #e4e4e7; }
+    .post-badge { background: #fff; color: #3f3f46; border: 1px solid #e4e4e7; font-weight: 500; }
 
+    .post-count { min-width: 52px; text-align: center; color: #71717a; }
 
+    /* 刪除按鈕在 stretched-link 上 */
+    .post-delete { position: relative; z-index: 2; color: #71717a; border: 0; border-radius: 10px; }
+    .post-delete:hover, .post-delete:focus-visible { background: #fff; color: #b42318; }
 
+    /* 有滑鼠的裝置：移入卡片才顯示；手機、平板一直顯示 */
+    @@media (hover: hover) {
+        .post-row .post-delete { opacity: 0; transition: opacity .15s; }
+        .post-row:hover .post-delete, .post-row .post-delete:focus-visible { opacity: 1; }
+    }
+</style>
+
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+    <h1 class="h4 fw-bold m-0">
+        文章管理 <span class="fs-6 fw-normal text-secondary ms-1">@Model.TotalCount 篇</span>
+    </h1>
+</div>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+}
+
+<form asp-action="Index" method="get" class="row g-2 align-items-center mb-3">
+    <div class="col-12 col-md-3">
+        <select asp-for="Category" class="form-select">
+            <option value="">全部分類</option>
+            @foreach (var opt in categories)
+            {
+                <option value="@opt">@opt</option>
+            }
+        </select>
+    </div>
+    <div class="col-12 col-md">
+        <div class="input-group">
+            <span class="input-group-text bg-white text-secondary"><i class="bi bi-search"></i></span>
+            <input asp-for="Keyword" class="form-control" placeholder="搜尋標題、品牌或車型" />
+        </div>
+    </div>
+    <div class="col-12 col-md-auto">
+        <button type="submit" class="btn btn-dark w-100 px-4">搜尋</button>
+    </div>
+</form>
+
+@* 文章列表 *@
+<div class="d-flex flex-column gap-2">
+    @if (Model.Items.Count == 0 && ViewData.ModelState.IsValid)
+    {
+        <div class="text-center text-secondary py-5">沒有符合條件的文章</div>
+    }
+
+    @foreach (var item in Model.Items)
+    {
+        <div class="post-row rounded-4 position-relative d-flex align-items-center gap-3 px-3 py-3">
+            <div class="flex-grow-1" style="min-width: 0;">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <span class="badge rounded-pill post-badge">@item.Category</span>
+                    <a asp-action="PostDetail" asp-route-id="@item.Id"
+                       class="stretched-link fw-semibold text-dark text-decoration-none">@item.Title</a>
+                </div>
+                <div class="small text-secondary mt-1">
+                    @item.UserName ·
+                    @*有車輛才顯示*@
+                    @if(!string.IsNullOrEmpty(item.CarName))
+                    {
+                        <text> @item.CarName ·</text>
+                    }
+                    @item.CreatedAt.ToString("MM/dd")
+                </div>
+            </div>
+
+            <div class="post-count">
+                <div class="fs-5 fw-bold">@item.CommentCount</div>
+                <div style="font-size: .7rem;">留言</div>
+            </div>
+
+            <button type="button" class="btn btn-sm post-delete js-delete"
+                    data-id="@item.Id" data-title="@item.Title"
+                    aria-label="刪除文章">
+                <i class="bi bi-trash"></i>
+            </button>
+        </div>
+    }
+</div>
+
+@*分頁 *@
+@if (Model.TotalPages > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination pagination-sm justify-content-center">
+
+            @* 上一頁，在第一頁的時候disabled*@
+            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                <a class="page-link text-dark" asp-action="Index"
+                   asp-route-keyword="@Model.Keyword" asp-route-category="@Model.Category"
+                   asp-route-page="@(Model.Page -1)">‹</a>
+            </li>
+
+            @* 頁碼*@
+            @for (int p = startPage; p <= endPage; p++)
+            {
+                <li class="page-item @(p == Model.Page? "active":"")">
+                    <a class="page-link @(p == Model.Page ? "bg-dark border-dark" : "text-dark")" asp-action="Index"
+                       asp-route-keyword="@Model.Keyword" asp-route-category="@Model.Category"
+                       asp-route-page="@p">@p</a>
+                </li>
+            }
+            @* 下一頁 *@
+            <li class="page-item @(Model.Page < Model.TotalPages? "":"disabled")">
+                <a class="page-link text-dark" asp-action="Index"
+                   asp-route-keyword="@Model.Keyword" asp-route-category="@Model.Category"
+                   asp-route-page="@(Model.Page + 1)">›</a>
+            </li>
+        </ul>
+    </nav>
+}
+
+@*刪除確認視窗*@
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+            <form asp-action="Delete" method="post">
+                <input type="hidden" name="id" id="deleteId" />
+                <input type="hidden" name="Keyword" value="@Model.Keyword" />
+                <input type="hidden" name="Category" value="@Model.Category" />
+                <input type="hidden" name="Page" value="@Model.Page" />
+                <div class="modal-body p-4">
+                    <h2 class="h5 fw-bold mb-2" id="deleteModalTitle">刪除這篇文章？</h2>
+                    <p class="text-secondary mb-0">
+                        「<span id="deleteTitle"></span>」和底下所有留言都會一起刪除，刪除後無法復原。
+                    </p>
+                </div>
+                <div class="modal-footer border-0 pt-0 px-4 pb-4">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-danger">刪除</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*jQuery*@
+@section Scripts {
+    <script>
+        $(function()
+        {
+            //選擇之後會送出
+            $('#Category').on('change', function () //asp-for會自動有id = Category
+            {
+                $(this).closest('form').submit()
+            })
+
+            const deleteModal = new bootstrap.Modal('#deleteModal');//建立刪除視窗
+
+            $('.js-delete').on('click', function () 
+            {
+                const id = $(this).data('id')
+                const title = $(this).data('title')
+
+                $('#deleteId').val(id)        //送出時告訴後端刪哪一篇
+                $('#deleteTitle').text(title) //視窗顯示標題
+
+                deleteModal.show()//呼叫視窗
+            })
+        })
+    </script>
+}

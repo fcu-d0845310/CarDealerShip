@@ -23,7 +23,7 @@ namespace CarDealerShip.Controllers
                 return View(vm);
             }
 
-            PostListViewModel returnVM = await _postService.GetAllPost(vm);
+            PostListViewModel returnVM = await _postService.GetAllPostAsync(vm);
             return View(returnVM);
         }
 
@@ -35,6 +35,19 @@ namespace CarDealerShip.Controllers
                 return NotFound();
             }
             return View(detail);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id,[Bind("Keyword,Category,Page")] PostListViewModel vm)
+        {
+            bool isExist = await _postService.DeletePostAsync(id);
+            
+            if(!isExist)
+            {
+                return NotFound(id);
+            }
+            return RedirectToAction("Index",new { vm.Keyword, vm.Category, vm.Page });//刪除後回到原本的頁碼頁面
         }
     }
 }

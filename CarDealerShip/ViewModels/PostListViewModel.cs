@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CarDealerShip.Models;
 
 namespace CarDealerShip.ViewModels
 {
     public class PostListViewModel
     {
         public List<PostListItemViewModel> Items { get; set; } = new();
-        [MaxLength(50)]
+        [MaxLength(50, ErrorMessage = "搜尋關鍵字不可超過 50 個字")]
         public string? Keyword { get; set; }//搜尋
-        [MaxLength(20)]
+        [AllowedValues(null, PostCategories.Review, PostCategories.Insurance,
+            PostCategories.Loan, PostCategories.Maintenance, ErrorMessage = "分類不存在")]
         public string? Category { get; set; }//分類篩選
 
         private int _page = 1;

@@ -1,0 +1,140 @@
+﻿@model CarDealerShip.ViewModels.PostDetailViewModel
+@{
+    ViewData["Title"] = Model.Title;
+
+    //遞迴呼叫回覆
+    int CountAll(List<CarDealerShip.ViewModels.CommentViewModel> list) => list.Sum(c => 1 + CountAll(c.Replies));
+    int totalComments = CountAll(Model.Comments);
+}
+
+<style>
+    .post-tile { background: #f4f4f5; }
+    .post-badge { background: #fff; color: #3f3f46; border: 1px solid #e4e4e7; font-weight: 500; }
+    .post-body { line-height: 1.8; max-width: 68ch; white-space: pre-line; }
+
+    /* 留言區 */
+    .thread { display: flex; flex-direction: column; gap: 14px; }
+    .c-item { position: relative; }
+    .bubble { display: inline-block; max-width: 100%; background: #f4f4f5; border-radius: 18px; padding: 8px 14px; }
+    .b-name { font-size: .8rem; font-weight: 600; color: #18181b; }
+    .b-text { font-size: .95rem; line-height: 1.5; overflow-wrap: anywhere; }
+    .b-line { display: flex; align-items: center; gap: 4px; }
+    .meta { font-size: .75rem; color: #71717a; padding: 3px 14px 0; }
+
+    /* 回覆：往右縮排，用 L 形的線連到上一層 */
+    .kids { margin-top: 10px; margin-left: 14px; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .kids > .c-item::before { content: ""; position: absolute; left: -22px; top: -10px; width: 18px; height: 22px;
+                              border-left: 2px solid #d4d4d8; border-bottom: 2px solid #d4d4d8; border-bottom-left-radius: 12px; }
+    .kids > .c-item:not(:last-child)::after { content: ""; position: absolute; left: -22px; top: 0; bottom: -10px; border-left: 2px solid #d4d4d8; }
+
+    /* ⋯ 按鈕：滑鼠移到泡泡上才出現；手機、平板一直顯示 */
+    .btn-dots { border: 0; background: transparent; color: #71717a; border-radius: 50%; width: 30px; height: 30px; display: grid; place-items: center; }
+    .btn-dots:hover, .btn-dots[aria-expanded="true"] { background: #f4f4f5; color: #18181b; }
+    .c-menu:has(.show) { position: relative; z-index: 5; }
+    @@media (hover: hover) {
+        .c-menu { opacity: 0; transition: opacity .15s; }
+        .b-line:hover > .c-menu, .c-menu:focus-within, .c-menu:has(.show) { opacity: 1; }
+    }
+</style>
+
+@*返回列表 *@
+<a asp-action="Index" class="small text-secondary text-decoration-none d-inline-block mb-3">‹ 返回文章列表</a>
+
+@*文章*@
+<article class="post-tile rounded-4 p-4 mb-4">
+    <div class="d-flex align-items-start gap-3">
+        <div class="flex-grow-1" style="min-width: 0;">
+            <span class="badge rounded-pill post-badge mb-2">@Model.Category</span>
+            <h1 class="h4 fw-bold mb-2 text-dark">@Model.Title</h1>
+
+            <div class="small text-secondary">
+                @Model.AuthorName ·
+                @if(!string.IsNullOrEmpty(Model.CarName))
+                {
+                    <text> @Model.CarName ·</text>
+                }
+                @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 flex-shrink-0"
+                data-bs-toggle="modal" data-bs-target="#deletePostModal">
+            <i class="bi bi-trash"></i><span>刪除文章</span>
+        </button>
+    </div>
+
+    <hr class="my-3 border-secondary-subtle" />
+    <div class="post-body">@Model.Content</div>
+</article>
+
+@*留言區*@
+<h2 class="h6 fw-bold mb-3">留言 <span class="text-secondary fw-normal">@totalComments</span></h2>
+
+@if (totalComments == 0)
+{
+    <div class="text-secondary small py-4">還沒有人留言</div>
+}
+else
+{
+    <div class="thread">
+        @foreach (var comment in Model.Comments)
+        {
+           <partial name="_CommentItem" model="comment"></partial>
+        }
+    </div>
+}
+
+@*刪除文章視窗*@
+<div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+            <form asp-action="Delete" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="modal-body p-4">
+                    <h2 class="h5 fw-bold mb-2" id="deletePostTitle">刪除這篇文章？</h2>
+                    <p class="text-secondary mb-0">「@Model.Title」和底下所有留言都會一起刪除，刪除後無法復原。</p>
+                </div>
+                <div class="modal-footer border-0 pt-0 px-4 pb-4">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-danger">刪除</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*刪除留言視窗*@
+<div class="modal fade" id="deleteCommentModal" tabindex="-1" aria-labelledby="deleteCommentTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+            <form asp-controller="Comment" asp-action="Delete" method="post">
+                <input type="hidden" name="id" id="deleteCommentId" />
+                <input type="hidden" name="postId" value="@Model.Id" />
+                <div class="modal-body p-4">
+                    <h2 class="h5 fw-bold mb-2" id="deleteCommentTitle">刪除這則留言？</h2>
+                    <p class="text-secondary mb-0"><span id="deleteCommentUser"></span> 的留言和底下的回覆都會一起刪除，刪除後無法復原。</p>
+                </div>
+                <div class="modal-footer border-0 pt-0 px-4 pb-4">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-danger">刪除</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*jQuery*@
+@section Scripts {
+    <script>
+            $(function () {
+                const deleteCommentModal = new bootstrap.Modal('#deleteCommentModal');
+                $('.js-delete-comment').on('click', function () {
+                    const id = $(this).data('id');
+                    const user = $(this).data('user');
+                    $('#deleteCommentId').val(id);      // 隱藏欄位：送出時告訴後端刪哪一則
+                    $('#deleteCommentUser').text(user); // 視窗裡顯示誰的留言
+                    deleteCommentModal.show();
+                });
+            });
+    </script>
+}

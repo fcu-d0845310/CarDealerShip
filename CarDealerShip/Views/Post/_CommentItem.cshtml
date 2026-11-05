@@ -1,0 +1,33 @@
+﻿@model CarDealerShip.ViewModels.CommentViewModel
+
+<div class="c-item">
+    <div class="b-line">
+        <div class="bubble">
+            <div class="b-name">@Model.UserName</div>
+            <div class="b-text">@Model.Content</div>
+        </div>
+        <div class="dropdown c-menu">
+            <button type="button" class="btn-dots" data-bs-toggle="dropdown" aria-expanded="false" aria-label="更多操作">
+                <i class="bi bi-three-dots"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <li>
+                    <button type="button" class="dropdown-item text-danger d-flex align-items-center gap-2 js-delete-comment"
+                            data-id="@Model.Id" data-user="@Model.UserName">
+                        <i class="bi bi-trash"></i>刪除留言
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="meta">@Model.CreatedAt.ToString("MM/dd HH:mm")</div>
+    @if (Model.Replies.Count > 0)
+    {
+        <div class="kids">
+            @foreach (var reply in Model.Replies)
+            {
+                <partial name="_CommentItem" model="reply" />
+            }
+        </div>
+    }
+</div>

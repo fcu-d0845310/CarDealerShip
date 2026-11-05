@@ -1,11 +1,14 @@
-﻿using CarDealerShip.ViewModels;
+﻿using CarDealerShip.Models;
 
 namespace CarDealerShip.Repository
 {
     public interface IPostRepository
     {
-        Task<PostListViewModel> GetAllPost(PostListViewModel vm);
-        Task<List<CommentViewModel>> GetCommentByPostIdAsync(int id);
-        Task<PostDetailViewModel?> GetPostById(int id);
+        Task DeletePostByIdAsync(int id);
+        Task<int> CountPostsAsync(string? keyword, string? category);
+        Task<List<Post>> GetPostPageAsync(string? keyword, string? category, int skip, int take);
+        Task<Dictionary<int, int>> GetCommentCountsAsync(List<int> postIds);
+        Task<List<Comment>> GetCommentByPostIdAsync(int id);
+        Task<Post?> GetPostByIdAsync(int id);
     }
 }
