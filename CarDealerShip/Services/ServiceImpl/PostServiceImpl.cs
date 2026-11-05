@@ -63,7 +63,7 @@ namespace CarDealerShip.Services.ServiceImpl
             }
 
             var skip = (page - 1) * vm.PageSize;
-            var posts = await _postRepository.GetPostPageAsync(vm.Keyword, vm.Category, skip, vm.PageSize);
+            var posts = await _postRepository.GetPostAsync(vm.Keyword, vm.Category, skip, vm.PageSize);
 
             var postIds = posts.Select(p => p.Id).ToList();
             var commentCounts = await _postRepository.GetCommentCountsAsync(postIds);

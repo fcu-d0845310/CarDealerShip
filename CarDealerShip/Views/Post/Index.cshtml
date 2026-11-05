@@ -3,7 +3,7 @@
    
     ViewData["Title"] = "文章管理";
 
-    var categories = CarDealerShip.Models.PostCategories.All;
+    var categories = CarDealerShip.Constants.PostCategory.All;
     //只顯示目前分頁的前後兩個頁碼
     int startPage = Math.Max(1, Model.Page - 2);
     int endPage = Math.Min(Model.TotalPages, Model.Page + 2);

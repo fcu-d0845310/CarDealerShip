@@ -1,6 +1,6 @@
-namespace CarDealerShip.Models
+namespace CarDealerShip.Constants
 {
-    public static class PostCategories
+    public static class PostCategory
     {
         public const string Review = "心得";
         public const string Insurance = "保險";

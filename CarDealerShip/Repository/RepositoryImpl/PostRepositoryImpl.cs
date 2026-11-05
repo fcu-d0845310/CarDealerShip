@@ -36,7 +36,7 @@ namespace CarDealerShip.Repository.RepositoryImpl
         }
 
         //查詢該page的貼文
-        public async Task<List<Post>> GetPostPageAsync(string? keyword, string? category, int skip, int take)
+        public async Task<List<Post>> GetPostAsync(string? keyword, string? category, int skip, int take)
         {
             return await BuildPostQuery(keyword, category)
                 .Include(p => p.User)

@@ -1,0 +1,128 @@
+@model CarDealerShip.ViewModels.CarListViewModel
+@{
+    ViewData["Title"] = "車輛管理";
+
+    var statuses = CarDealerShip.Constants.CarStatus.All;
+    //只顯示目前分頁的前後兩個頁碼
+    int startPage = Math.Max(1, Model.Page - 2);
+    int endPage = Math.Min(Model.TotalPages, Model.Page + 2);
+}
+<style>
+    .car-card { background: #f4f4f5; }
+    .car-photo { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #e4e4e7; }
+    .car-photo-empty { display: grid; place-items: center; color: #a1a1aa; font-size: 2rem; }
+</style>
+
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+    <h1 class="h4 fw-bold m-0">
+        車輛管理 <span class="fs-6 fw-normal text-secondary ms-1">@Model.TotalCount 台</span>
+    </h1>
+</div>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+}
+
+<form asp-action="Index" method="get" class="row g-2 align-items-center mb-3">
+    <div class="col-12 col-md-3">
+        <select asp-for="Brand" asp-items="Model.Brands" class="form-select">
+            <option value="">全部品牌</option>
+        </select>
+    </div>
+    <div class="col-12 col-md-2">
+        <select asp-for="Status" class="form-select">
+            <option value="">全部狀態</option>
+            @foreach (var status in statuses)
+            {
+                <option value="@status">@status</option>
+            }
+        </select>
+    </div>
+    <div class="col-12 col-md-2">
+        <select asp-for="BranchId" asp-items="Model.Branches" class="form-select">
+            <option value="">全部分店</option>
+        </select>
+    </div>
+    <div class="col-12 col-md-3">
+        <input asp-for="Model" class="form-control" placeholder="搜尋型號" />
+    </div>
+    <div class="col-12 col-md-auto">
+        <button type="submit" class="btn btn-dark w-100 px-4">搜尋</button>
+    </div>
+</form>
+
+@* 車輛卡片，上方主圖，下方車輛資訊 *@
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+    @foreach (var item in Model.Items)
+    {
+        <div class="col">
+            <div class="car-card rounded-4 overflow-hidden h-100 position-relative">
+                @if (!string.IsNullOrEmpty(item.PrimaryImg))
+                {
+                    <img src="@item.PrimaryImg" alt="@item.Brand @item.Model" class="car-photo d-block" />
+                }
+                else
+                {
+                    <div class="car-photo car-photo-empty"><i class="bi bi-image"></i></div>
+                }
+                <div class="p-3">
+                    @* 整張卡片都可點擊，Edit 完成後可改用 asp-action *@
+                    <a href="/Car/Edit/@item.Id" class="stretched-link fw-semibold text-dark text-decoration-none">@item.Brand @item.Model</a>
+                    <div class="small text-secondary mt-1">@item.ProductionYear 年 · @item.Mileage.ToString("N0") 公里</div>
+                    <div class="small text-secondary">@item.BranchName · @item.Status</div>
+                    <hr class="my-2 border-secondary-subtle" />
+                    <div class="d-flex justify-content-between small">
+                        <span class="text-secondary">成本</span>
+                        <span>@item.CostPrice.ToString("N0")</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="small text-secondary">售價</span>
+                        <span class="fw-bold">@item.SellingPrice.ToString("N0")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (Model.Items.Count == 0 && ViewData.ModelState.IsValid)
+{
+    <div class="text-center text-secondary py-5">沒有符合條件的車輛</div>
+}
+
+@* 分頁 *@
+@if (Model.TotalPages > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination pagination-sm justify-content-center">
+
+            @* 上一頁，在第一頁的時候disabled *@
+            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                <a class="page-link text-dark" asp-action="Index"
+                   asp-route-brand="@Model.Brand" asp-route-model="@Model.Model"
+                   asp-route-status="@Model.Status" asp-route-branchId="@Model.BranchId"
+                   asp-route-page="@(Model.Page - 1)">‹</a>
+            </li>
+
+            @* 頁碼 *@
+            @for (int p = startPage; p <= endPage; p++)
+            {
+                <li class="page-item @(p == Model.Page ? "active" : "")">
+                    <a class="page-link @(p == Model.Page ? "bg-dark border-dark" : "text-dark")" asp-action="Index"
+                       asp-route-brand="@Model.Brand" asp-route-model="@Model.Model"
+                       asp-route-status="@Model.Status" asp-route-branchId="@Model.BranchId"
+                       asp-route-page="@p">@p</a>
+                </li>
+            }
+
+            @* 下一頁 *@
+            <li class="page-item @(Model.Page < Model.TotalPages ? "" : "disabled")">
+                <a class="page-link text-dark" asp-action="Index"
+                   asp-route-brand="@Model.Brand" asp-route-model="@Model.Model"
+                   asp-route-status="@Model.Status" asp-route-branchId="@Model.BranchId"
+                   asp-route-page="@(Model.Page + 1)">›</a>
+            </li>
+        </ul>
+    </nav>
+}
