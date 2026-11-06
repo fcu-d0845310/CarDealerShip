@@ -56,6 +56,19 @@ namespace CarDealerShip.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //驗證失敗時重新查詢現有圖片與分店選項，表單送出時不會帶這些資料
+                var car = await _carService.GetCarDetailAsync(id);
+                if (car == null)
+                {
+                    TempData["ErrorMessage"] = "找不到這台車輛";
+                    if (Url.IsLocalUrl(vm.ReturnUrl))
+                    {
+                        return LocalRedirect(vm.ReturnUrl);
+                    }
+                    return RedirectToAction("Index");
+                }
+                var branches = await _carService.GetBranchOptionsAsync();
+                vm.ApplyFormOptions(car, branches);
                 vm.ReturnUrl = Url.IsLocalUrl(vm.ReturnUrl) ? vm.ReturnUrl : null;
                 return View(vm);
             }

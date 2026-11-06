@@ -54,7 +54,7 @@
     </div>
 </form>
 
-@* 車輛卡片，上方主圖，下方車輛資訊 *@
+@*車輛*@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
     @foreach (var item in Model.Items)
     {
@@ -69,7 +69,7 @@
                     <div class="car-photo car-photo-empty"><i class="bi bi-image"></i></div>
                 }
                 <div class="p-3">
-                    @* 整張卡片都可點擊 *@
+                    @*卡片都可點擊*@
                     <a asp-action="Edit" asp-route-id="@item.Id" asp-route-returnUrl="@currentUrl" class="stretched-link fw-semibold text-dark text-decoration-none">@item.Brand @item.Model</a>
                     <div class="small text-secondary mt-1">@item.ProductionYear 年 · @item.Mileage.ToString("N0") 公里</div>
                     <div class="small text-secondary">@item.BranchName · @item.Status</div>
@@ -93,13 +93,13 @@
     <div class="text-center text-secondary py-5">沒有符合條件的車輛</div>
 }
 
-@* 分頁 *@
+@*分頁*@
 @if (Model.TotalPages > 1)
 {
     <nav class="mt-4">
         <ul class="pagination pagination-sm justify-content-center">
 
-            @* 上一頁，在第一頁的時候disabled *@
+            @*上一頁，在第一頁的時候disabled*@
             <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
                 <a class="page-link text-dark" asp-action="Index"
                    asp-route-brand="@Model.Brand" asp-route-model="@Model.Model"
@@ -107,7 +107,7 @@
                    asp-route-page="@(Model.Page - 1)">‹</a>
             </li>
 
-            @* 頁碼 *@
+            @*頁碼*@
             @for (int p = startPage; p <= endPage; p++)
             {
                 <li class="page-item @(p == Model.Page ? "active" : "")">
@@ -118,7 +118,7 @@
                 </li>
             }
 
-            @* 下一頁 *@
+            @*下一頁*@
             <li class="page-item @(Model.Page < Model.TotalPages ? "" : "disabled")">
                 <a class="page-link text-dark" asp-action="Index"
                    asp-route-brand="@Model.Brand" asp-route-model="@Model.Model"

@@ -1,0 +1,165 @@
+@model CarDealerShip.ViewModels.CarFormViewModel
+@{
+    ViewData["Title"] = "編輯車輛";
+
+    var statuses = CarDealerShip.Constants.CarStatus.All;
+    //返回與取消都回到原本的列表頁面，沒有時回到列表首頁
+    string backUrl = Model.ReturnUrl ?? Url.Action("Index")!;
+    //大圖優先顯示主圖，沒有主圖時用第一張，其餘圖片放在下方縮圖
+    var mainImage = Model.ExistingImages.FirstOrDefault(i => i.IsPrimary) ?? Model.ExistingImages.FirstOrDefault();
+    var otherImages = Model.ExistingImages.Where(i => i != mainImage).ToList();
+}
+<style>
+    .edit-tile { background: #f4f4f5; }
+    .car-photo { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #e4e4e7; }
+    .car-photo-empty { display: grid; place-items: center; color: #a1a1aa; font-size: 2rem; }
+    .car-thumb { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #e4e4e7; }
+    .primary-badge { background: #fff; color: #3f3f46; border: 1px solid #e4e4e7; font-weight: 500; }
+</style>
+
+@*返回列表*@
+<a href="@backUrl" class="small text-secondary text-decoration-none d-inline-block mb-3">‹ 返回車輛列表</a>
+
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+    <h1 class="h4 fw-bold m-0">
+        編輯車輛 <span class="fs-6 fw-normal text-secondary ms-1">@Model.Brand @Model.Model</span>
+    </h1>
+</div>
+
+<div class="row g-3">
+    @*左欄：現有圖片，目前只顯示，上傳與刪除之後再做*@
+    <div class="col-12 col-lg-5">
+        <div class="edit-tile rounded-4 p-3">
+            <div class="position-relative">
+                @if (mainImage != null)
+                {
+                    <img src="@mainImage.ImageUrl" alt="@Model.Brand @Model.Model" class="car-photo d-block rounded-3" />
+                    @if (mainImage.IsPrimary)
+                    {
+                        <span class="badge rounded-pill primary-badge position-absolute top-0 start-0 m-2">主圖</span>
+                    }
+                }
+                else
+                {
+                    <div class="car-photo car-photo-empty rounded-3"><i class="bi bi-image"></i></div>
+                }
+            </div>
+
+            @if (otherImages.Count > 0)
+            {
+                <div class="row row-cols-3 g-2 mt-1">
+                    @foreach (var image in otherImages)
+                    {
+                        <div class="col">
+                            <img src="@image.ImageUrl" alt="@Model.Brand @Model.Model" class="car-thumb d-block rounded-3" />
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="small text-secondary mt-2">共 @Model.ExistingImages.Count 張圖片</div>
+        </div>
+    </div>
+
+    @*右欄：車輛資料表單*@
+    <div class="col-12 col-lg-7">
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="edit-tile rounded-4 p-4">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <h2 class="h6 fw-bold mb-3">基本資料</h2>
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-6">
+                    <label asp-for="BranchId" class="form-label fw-semibold"></label>
+                    <select asp-for="BranchId" asp-items="Model.Branches" class="form-select">
+                        <option value="">請選擇分店</option>
+                    </select>
+                    <span asp-validation-for="BranchId" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="Status" class="form-label fw-semibold"></label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="">請選擇狀態</option>
+                        @foreach (var status in statuses)
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="Brand" class="form-label fw-semibold"></label>
+                    <input asp-for="Brand" class="form-control" />
+                    <span asp-validation-for="Brand" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="Model" class="form-label fw-semibold"></label>
+                    <input asp-for="Model" class="form-control" />
+                    <span asp-validation-for="Model" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="Color" class="form-label fw-semibold"></label>
+                    <input asp-for="Color" class="form-control" />
+                    <span asp-validation-for="Color" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="ProductionYear" class="form-label fw-semibold"></label>
+                    <input asp-for="ProductionYear" class="form-control" />
+                    <span asp-validation-for="ProductionYear" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="Mileage" class="form-label fw-semibold"></label>
+                    <div class="input-group">
+                        <input asp-for="Mileage" class="form-control" />
+                        <span class="input-group-text">公里</span>
+                    </div>
+                    <span asp-validation-for="Mileage" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="Displacement" class="form-label fw-semibold"></label>
+                    <div class="input-group">
+                        <input asp-for="Displacement" class="form-control" />
+                        <span class="input-group-text">cc</span>
+                    </div>
+                    <span asp-validation-for="Displacement" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <h2 class="h6 fw-bold mb-3">價格</h2>
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-6">
+                    <label asp-for="CostPrice" class="form-label fw-semibold"></label>
+                    <div class="input-group">
+                        <span class="input-group-text">NT$</span>
+                        <input asp-for="CostPrice" class="form-control" inputmode="decimal" />
+                    </div>
+                    <span asp-validation-for="CostPrice" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="SellingPrice" class="form-label fw-semibold"></label>
+                    <div class="input-group">
+                        <span class="input-group-text">NT$</span>
+                        <input asp-for="SellingPrice" class="form-control" inputmode="decimal" />
+                    </div>
+                    <span asp-validation-for="SellingPrice" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <h2 class="h6 fw-bold mb-3">描述</h2>
+            <div class="mb-4">
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="車況、配備等補充說明"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <a href="@backUrl" class="btn btn-outline-secondary px-4">取消</a>
+                <button type="submit" class="btn btn-dark px-4">儲存</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @*送出前先在瀏覽器檢查必填、長度、範圍*@
+    <partial name="_ValidationScriptsPartial" />
+}

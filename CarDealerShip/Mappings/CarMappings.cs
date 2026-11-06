@@ -67,7 +67,7 @@ namespace CarDealerShip.Mappings
         //把車輛資料與分店選項組成編輯頁的 ViewModel
         public static CarFormViewModel ToFormViewModel(this CarDetailDto dto, IEnumerable<OptionDto> branches)
         {
-            return new CarFormViewModel
+            var vm = new CarFormViewModel
             {
                 Id = dto.Id,
                 BranchId = dto.BranchId,
@@ -80,10 +80,17 @@ namespace CarDealerShip.Mappings
                 CostPrice = dto.CostPrice,
                 SellingPrice = dto.SellingPrice,
                 Status = dto.Status,
-                Description = dto.Description,
-                ExistingImages = dto.Images.Select(i => i.ToViewModel()).ToList(),
-                Branches = branches.ToSelectList()
+                Description = dto.Description
             };
+            vm.ApplyFormOptions(dto, branches);
+            return vm;
+        }
+
+        //把現有圖片與分店選項填入編輯頁，直接修改傳入的 ViewModel，保留使用者原本輸入的內容
+        public static void ApplyFormOptions(this CarFormViewModel vm, CarDetailDto dto, IEnumerable<OptionDto> branches)
+        {
+            vm.ExistingImages = dto.Images.Select(i => i.ToViewModel()).ToList();
+            vm.Branches = branches.ToSelectList();
         }
 
         //車輛的一張圖片
