@@ -2,6 +2,8 @@
 {
     public interface IImageService
     {
-        //Task<string> SaveAsync(IFormFile file);
+        Task<string> SaveAsync(IFormFile file);
+
+        void Delete(string imageUrl);
     }
 }

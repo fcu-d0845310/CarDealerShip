@@ -49,6 +49,35 @@ namespace CarDealerShip.Repository.RepositoryImpl
                 .ToListAsync();
         }
 
+
+        public async Task<Car?> GetCarByIdAsync(int id)
+        {
+            return await _appDbContext.Cars.AsNoTracking()
+                .Include(c => c.CarImages)
+                .Where(c => c.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Car?> GetCarForUpdateAsync(int id)
+        {
+            return await _appDbContext.Cars
+                .Include(c => c.CarImages)
+                .Where(c => c.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task SaveUpdateChangesAsync()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        //標記要刪除的圖片
+        public void RemoveCarImage(CarImage image)
+        {
+            _appDbContext.CarImages.Remove(image);
+        }
+
+
         //篩選條件
         private IQueryable<Car> BuildCarQuery(string? brand, string? model, string? status, int? branchId)
         {
@@ -76,27 +105,6 @@ namespace CarDealerShip.Repository.RepositoryImpl
             }
 
             return query;
-        }
-
-        public async Task<Car?> GetCarByIdAsync(int id)
-        {
-            return await _appDbContext.Cars.AsNoTracking()
-                .Include(c => c.CarImages)
-                .Where(c => c.Id == id)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<Car?> GetCarForUpdateAsync(int id)
-        {
-            return await _appDbContext.Cars
-                .Include(c => c.CarImages)
-                .Where(c => c.Id == id)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task SaveUpdateChangesAsync()
-        {
-            await _appDbContext.SaveChangesAsync();
         }
     }
 }

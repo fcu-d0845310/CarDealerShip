@@ -56,11 +56,11 @@ namespace CarDealerShip.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //驗證失敗時重新查詢現有圖片與分店選項，表單送出時不會帶這些資料
+                //編輯輸入不合法，回編輯頁面
                 var car = await _carService.GetCarDetailAsync(id);
                 if (car == null)
                 {
-                    TempData["ErrorMessage"] = "找不到這台車輛";
+                    TempData["ErrorMessage"] = "找不到這台車";
                     if (Url.IsLocalUrl(vm.ReturnUrl))
                     {
                         return LocalRedirect(vm.ReturnUrl);
@@ -75,8 +75,7 @@ namespace CarDealerShip.Controllers
 
             if(!await _carService.UpdateCarAsync(id, vm.ToUpdateDto()))
             {
-                //找不到車輛時加上提示
-                TempData["ErrorMessage"] = "找不到這台車輛";
+                TempData["ErrorMessage"] = "找不到這台車";
             }
             if (Url.IsLocalUrl(vm.ReturnUrl))
             {

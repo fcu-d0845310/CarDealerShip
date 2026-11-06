@@ -19,5 +19,14 @@ namespace CarDealerShip.Services
 
         //更新車輛資料，查無資料回傳 false
         Task<bool> UpdateCarAsync(int id, CarUpdateDto dto);
+
+        //上傳車輛圖片
+        Task<bool> UploadImagesAsync(int carId, List<IFormFile> files);
+
+        //刪除車輛圖片
+        Task<bool> DeleteImageAsync(int carId, int imageId);
+
+        //設定主圖片
+        Task<bool> SetPrimaryImageAsync(int carId, int imageId);
     }
 }

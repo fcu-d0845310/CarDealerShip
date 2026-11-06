@@ -56,11 +56,7 @@ namespace CarDealerShip.ViewModels
         [Display(Name = "描述")]
         public string? Description { get; set; }
 
-        public List<IFormFile> Images { get; set; } = new();//新上傳的圖片
-        public List<int> DeleteImageIds { get; set; } = new();//編輯時要刪除的圖片
-        public int? PrimaryImageId { get; set; }//指定為主圖的現有圖片
-
-        public List<CarImageViewModel> ExistingImages { get; set; } = new();//顯示用，由 Service 查詢
-        public List<SelectListItem> Branches { get; set; } = new();//分店下拉選單，由 Service 查詢
+        public List<CarImageViewModel> ExistingImages { get; set; } = new();//顯示用
+        public List<SelectListItem> Branches { get; set; } = new();//分店下拉選單
     }
 }

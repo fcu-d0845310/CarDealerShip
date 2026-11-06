@@ -23,6 +23,7 @@ builder.Services.AddScoped<ICommentService, CommentServiceImpl>();
 builder.Services.AddScoped<ICommentRepository, CommentRepositoryImpl>();
 builder.Services.AddScoped<ICarService, CarServiceImpl>();
 builder.Services.AddScoped<ICarRepository, CarRepositoryImpl>();
+builder.Services.AddScoped<IImageService, ImageServiceImpl>();
 //加入 Cookie 驗證
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

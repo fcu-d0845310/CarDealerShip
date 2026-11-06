@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\cars\" />
+    <Folder Include="wwwroot\upload\cars\" />
+    <Folder Include="wwwroot\upload\" />
   </ItemGroup>
 
 </Project>

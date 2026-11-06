@@ -1,5 +1,6 @@
 using CarDealerShip.Dtos.Car;
 using CarDealerShip.Dtos.Common;
+using CarDealerShip.Models;
 using CarDealerShip.Repository;
 
 namespace CarDealerShip.Services.ServiceImpl
@@ -9,10 +10,11 @@ namespace CarDealerShip.Services.ServiceImpl
         private const int CarPageSize = 12;//車輛列表每頁筆數
 
         private readonly ICarRepository _carRepository;
-
-        public CarServiceImpl(ICarRepository carRepository)
+        private readonly IImageService _imageService;
+        public CarServiceImpl(ICarRepository carRepository, IImageService imageService)
         {
             _carRepository = carRepository;
+            _imageService = imageService;
         }
 
         public async Task<CarDetailDto?> GetCarDetailAsync(int id)
@@ -125,6 +127,105 @@ namespace CarDealerShip.Services.ServiceImpl
             car.SellingPrice = dto.SellingPrice;
             car.Status = dto.Status;
             car.Description = dto.Description;
+
+
+
+            await _carRepository.SaveUpdateChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UploadImagesAsync(int carId, List<IFormFile> files)
+        {
+            var car = await _carRepository.GetCarForUpdateAsync(carId);
+
+            if(car == null)
+            {
+                return false;
+            }
+
+            bool hasPrimary = car.CarImages.Any(x => x.IsPrimary == true);
+            var savedUrls = new List<string>();//已存檔的網址失敗時用來刪檔
+
+            try
+            {
+                foreach(var image in files)
+                {
+                    string url = await _imageService.SaveAsync(image);
+                    savedUrls.Add(url);
+
+                    car.CarImages.Add(new CarImage
+                    {
+                        ImageUrl = url,
+                        IsPrimary = !hasPrimary
+                    });
+                    hasPrimary = true;
+                }
+
+                await _carRepository.SaveUpdateChangesAsync();
+            }
+            catch
+            {
+                //存檔或寫入資料庫失敗，刪掉這次已存的檔案
+                foreach (var url in savedUrls)
+                {
+                    _imageService.Delete(url);
+                }
+                throw;
+            }
+            return true;
+        }
+
+        public async Task<bool> DeleteImageAsync(int carId, int imageId)
+        {
+            var car = await _carRepository.GetCarForUpdateAsync(carId);
+            if (car == null)
+            {
+                return false;
+            }
+            var target = car.CarImages.Where(x => x.Id == imageId).FirstOrDefault();
+
+            if(target == null)
+            {
+                return false;
+            }
+
+            string url = target.ImageUrl;
+            bool isPrimary = target.IsPrimary;
+            _carRepository.RemoveCarImage(target);
+            
+            if(isPrimary)
+            {
+                var tmp = car.CarImages.Where(img => img.Id != imageId).OrderBy(x => x.CreatedAt).FirstOrDefault();
+                if(tmp != null)
+                {
+                    tmp.IsPrimary = true;
+                }
+            }
+            await _carRepository.SaveUpdateChangesAsync();
+            _imageService.Delete(url);
+            return true;
+        }
+
+        public async Task<bool> SetPrimaryImageAsync(int carId, int imageId)
+        {
+            var car = await _carRepository.GetCarForUpdateAsync(carId);
+            if (car == null)
+            {
+                return false;
+            }
+
+            var target = car.CarImages.FirstOrDefault(x => x.Id == imageId);
+            if (target == null)
+            {
+                return false;
+            }
+
+            //先全部取消再設定，確保只有一張主圖
+            foreach (var img in car.CarImages)
+            {
+                img.IsPrimary = false;
+            }
+            target.IsPrimary = true;
 
             await _carRepository.SaveUpdateChangesAsync();
             return true;
