@@ -18,6 +18,10 @@ namespace CarDealerShip.Repository.RepositoryImpl
         public async Task DeletePostByIdAsync(int id)
         {
             var post = await _appDbContext.Posts.FindAsync(id);
+            if (post == null)
+            {
+                return;//貼文不存在就不做任何事，存在與否由 Service 先檢查
+            }
 
             var comments = await _appDbContext.Comments
                 .Where(c => c.PostId == id)

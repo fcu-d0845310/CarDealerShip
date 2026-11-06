@@ -7,6 +7,7 @@ namespace CarDealerShip.ViewModels
     public class CarFormViewModel
     {
         public int? Id { get; set; }//新增時為 null，編輯時有值
+        public string? ReturnUrl { get; set; }//存檔或取消後要回去的列表網址
 
         [Required(ErrorMessage = "請選擇分店")]
         [Display(Name = "分店")]

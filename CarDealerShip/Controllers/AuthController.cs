@@ -27,7 +27,7 @@ namespace CarDealerShip.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(loginViewModel vm)
+        public async Task<IActionResult> Login(LoginViewModel vm)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +47,7 @@ namespace CarDealerShip.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.Name)
+                new Claim(ClaimTypes.Role, user.RoleName)
                 //(類型,value)形式，也可以自訂類型
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

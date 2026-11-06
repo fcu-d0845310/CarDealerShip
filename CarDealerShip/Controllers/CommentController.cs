@@ -16,13 +16,14 @@ namespace CarDealerShip.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id, int postId)
+        public async Task<IActionResult> Delete(int id, int postId, string? returnUrl)
         {
             if(!await _commentService.DeleteCommentByIdAsync(id))
             {
-                return NotFound(id);
+                //留言已不存在加上錯誤訊息
+                TempData["ErrorMessage"] = "這則留言已經被刪除";
             }
-            return RedirectToAction("PostDetail","Post",new { id = postId});
+            return RedirectToAction("PostDetail","Post",new { id = postId, returnUrl });//returnUrl 由 PostDetail 檢查
         }
     }
 }

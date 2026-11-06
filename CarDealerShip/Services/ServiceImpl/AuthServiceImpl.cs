@@ -1,4 +1,4 @@
-﻿using CarDealerShip.Models;
+﻿using CarDealerShip.Dtos.Auth;
 using CarDealerShip.Repository;
 
 namespace CarDealerShip.Services.ServiceImpl
@@ -13,7 +13,7 @@ namespace CarDealerShip.Services.ServiceImpl
             _authRepository = authRepository;
         }
 
-        public async Task<User?> ValidateUserAsync(string email, string password)
+        public async Task<AuthUserDto?> ValidateUserAsync(string email, string password)
         {
             var user = await _authRepository.GetBossByEmailAsync(email);
 
@@ -26,7 +26,15 @@ namespace CarDealerShip.Services.ServiceImpl
                 return null;
             }
             await _authRepository.UpdateLastLoginAsync(user.Id, DateTime.Now);
-            return user;
+
+            //回傳登入需要的資料
+            return new AuthUserDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                RoleName = user.Role.Name
+            };
         }
 
     }

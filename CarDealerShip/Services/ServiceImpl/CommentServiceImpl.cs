@@ -22,7 +22,7 @@ namespace CarDealerShip.Services.ServiceImpl
            
             var commentChild = await _commentRepository.GetCommentByPostAsync(comment.PostId);
 
-            var lookup = commentChild.ToLookup(c => c.ParentId);//依照父留言的id當作key建立(key : 多個comment)
+            var lookup = commentChild.ToLookup(c => c.ParentId);//依照父留言的id當作key建立(key : 多個留言)
             var toDelete = new List<Comment>();//確定要刪除的留言
             var stack = new Stack<Comment>();//尚未處理過的留言
             stack.Push(comment);

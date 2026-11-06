@@ -6,6 +6,8 @@
     //只顯示目前分頁的前後兩個頁碼
     int startPage = Math.Max(1, Model.Page - 2);
     int endPage = Math.Min(Model.TotalPages, Model.Page + 2);
+    //目前的列表網址，包含篩選條件和頁碼
+    string currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 <style>
     .car-card { background: #f4f4f5; }
@@ -67,8 +69,8 @@
                     <div class="car-photo car-photo-empty"><i class="bi bi-image"></i></div>
                 }
                 <div class="p-3">
-                    @* 整張卡片都可點擊，Edit 完成後可改用 asp-action *@
-                    <a href="/Car/Edit/@item.Id" class="stretched-link fw-semibold text-dark text-decoration-none">@item.Brand @item.Model</a>
+                    @* 整張卡片都可點擊 *@
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-route-returnUrl="@currentUrl" class="stretched-link fw-semibold text-dark text-decoration-none">@item.Brand @item.Model</a>
                     <div class="small text-secondary mt-1">@item.ProductionYear 年 · @item.Mileage.ToString("N0") 公里</div>
                     <div class="small text-secondary">@item.BranchName · @item.Status</div>
                     <hr class="my-2 border-secondary-subtle" />

@@ -19,7 +19,7 @@ namespace CarDealerShip.Repository.RepositoryImpl
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task<Comment> GetCommentByIdAsync(int id)
+        public async Task<Comment?> GetCommentByIdAsync(int id)
         {
             return await _appDbContext.Comments
                 .Where(c => c.Id == id)

@@ -1,10 +1,13 @@
-﻿using CarDealerShip.Repository;
-using CarDealerShip.ViewModels;
+﻿using CarDealerShip.Dtos.Common;
+using CarDealerShip.Dtos.Post;
+using CarDealerShip.Repository;
 
 namespace CarDealerShip.Services.ServiceImpl
 {
     public class PostServiceImpl : IPostService
     {
+        private const int PostPageSize = 10;//貼文列表每頁筆數
+
         private readonly IPostRepository _postRepository;
 
         public PostServiceImpl(IPostRepository repo)
@@ -12,7 +15,7 @@ namespace CarDealerShip.Services.ServiceImpl
             _postRepository = repo;
         }
 
-        public async Task<PostDetailViewModel?> GetPostDetailAsync(int id)
+        public async Task<PostDetailDto?> GetPostDetailAsync(int id)
         {
             var post = await _postRepository.GetPostByIdAsync(id);
             if (post == null)
@@ -20,7 +23,7 @@ namespace CarDealerShip.Services.ServiceImpl
                 return null;
             }
 
-            var vm = new PostDetailViewModel
+            var dto = new PostDetailDto
             {
                 Id = post.Id,
                 Title = post.Title,
@@ -33,7 +36,7 @@ namespace CarDealerShip.Services.ServiceImpl
             };
 
             var commentEntities = await _postRepository.GetCommentByPostIdAsync(id);
-            var Comments = commentEntities.Select(c => new CommentViewModel
+            var Comments = commentEntities.Select(c => new CommentDto
             {
                 Id = c.Id,
                 Content = c.Content,
@@ -46,29 +49,29 @@ namespace CarDealerShip.Services.ServiceImpl
             {
                 c.Replies = LookUp[c.Id].ToList();
             }
-            vm.Comments = LookUp[null].ToList();
-            return vm;
+            dto.Comments = LookUp[null].ToList();
+            return dto;
         }
 
-        public async Task<PostListViewModel> GetAllPostAsync(PostListViewModel vm)
+        public async Task<PagedResult<PostListItemDto>> GetAllPostAsync(PostQueryDto query)
         {
-            var count = await _postRepository.CountPostsAsync(vm.Keyword, vm.Category);
+            var count = await _postRepository.CountPostsAsync(query.Keyword, query.Category);
 
-            var totalPages = (int)Math.Ceiling(count / (double)vm.PageSize);
-            var page = vm.Page;
+            var totalPages = (int)Math.Ceiling(count / (double)PostPageSize);
+            var page = query.Page;
 
             if (page > totalPages && totalPages > 0)
             {
                 page = totalPages;//超過就顯示最後一頁
             }
 
-            var skip = (page - 1) * vm.PageSize;
-            var posts = await _postRepository.GetPostAsync(vm.Keyword, vm.Category, skip, vm.PageSize);
+            var skip = (page - 1) * PostPageSize;//跳過資料數
+            var posts = await _postRepository.GetPostAsync(query.Keyword, query.Category, skip, PostPageSize);
 
             var postIds = posts.Select(p => p.Id).ToList();
             var commentCounts = await _postRepository.GetCommentCountsAsync(postIds);
 
-            var items = posts.Select(p => new PostListItemViewModel
+            var items = posts.Select(p => new PostListItemDto
             {
                 Id = p.Id,
                 Title = p.Title,
@@ -79,12 +82,11 @@ namespace CarDealerShip.Services.ServiceImpl
                 CreatedAt = p.CreatedAt
             }).ToList();
 
-            return new PostListViewModel
+            return new PagedResult<PostListItemDto>
             {
                 Items = items,
-                Keyword = vm.Keyword,
-                Category = vm.Category,
                 Page = page,
+                PageSize = PostPageSize,
                 TotalCount = count
             };
         }

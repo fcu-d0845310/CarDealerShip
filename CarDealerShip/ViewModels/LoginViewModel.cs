@@ -2,7 +2,7 @@
 
 namespace CarDealerShip.ViewModels
 {
-    public class loginViewModel
+    public class LoginViewModel
     {
         [Required(ErrorMessage = "請輸入 Email")]
         [EmailAddress(ErrorMessage = "Email 格式不正確")]

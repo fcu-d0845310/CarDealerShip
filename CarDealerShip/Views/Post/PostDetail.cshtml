@@ -38,7 +38,7 @@
 </style>
 
 @*返回列表 *@
-<a asp-action="Index" class="small text-secondary text-decoration-none d-inline-block mb-3">‹ 返回文章列表</a>
+<a href="@(Model.ReturnUrl ?? Url.Action("Index"))" class="small text-secondary text-decoration-none d-inline-block mb-3">‹ 返回文章列表</a>
 
 @*文章*@
 <article class="post-tile rounded-4 p-4 mb-4">
@@ -90,6 +90,7 @@ else
         <div class="modal-content border-0 rounded-4">
             <form asp-action="Delete" method="post">
                 <input type="hidden" name="id" value="@Model.Id" />
+                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
                 <div class="modal-body p-4">
                     <h2 class="h5 fw-bold mb-2" id="deletePostTitle">刪除這篇文章？</h2>
                     <p class="text-secondary mb-0">「@Model.Title」和底下所有留言都會一起刪除，刪除後無法復原。</p>
@@ -110,6 +111,7 @@ else
             <form asp-controller="Comment" asp-action="Delete" method="post">
                 <input type="hidden" name="id" id="deleteCommentId" />
                 <input type="hidden" name="postId" value="@Model.Id" />
+                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
                 <div class="modal-body p-4">
                     <h2 class="h5 fw-bold mb-2" id="deleteCommentTitle">刪除這則留言？</h2>
                     <p class="text-secondary mb-0"><span id="deleteCommentUser"></span> 的留言和底下的回覆都會一起刪除，刪除後無法復原。</p>

@@ -7,6 +7,8 @@
     //只顯示目前分頁的前後兩個頁碼
     int startPage = Math.Max(1, Model.Page - 2);
     int endPage = Math.Min(Model.TotalPages, Model.Page + 2);
+    //目前的列表網址，包含搜尋條件和頁碼
+    string currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 <style>
     .post-row { background: #f4f4f5; transition: background .2s; }
@@ -71,7 +73,7 @@
             <div class="flex-grow-1" style="min-width: 0;">
                 <div class="d-flex align-items-center gap-2 flex-wrap">
                     <span class="badge rounded-pill post-badge">@item.Category</span>
-                    <a asp-action="PostDetail" asp-route-id="@item.Id"
+                    <a asp-action="PostDetail" asp-route-id="@item.Id" asp-route-returnUrl="@currentUrl"
                        class="stretched-link fw-semibold text-dark text-decoration-none">@item.Title</a>
                 </div>
                 <div class="small text-secondary mt-1">
@@ -137,9 +139,7 @@
         <div class="modal-content border-0 rounded-4">
             <form asp-action="Delete" method="post">
                 <input type="hidden" name="id" id="deleteId" />
-                <input type="hidden" name="Keyword" value="@Model.Keyword" />
-                <input type="hidden" name="Category" value="@Model.Category" />
-                <input type="hidden" name="Page" value="@Model.Page" />
+                <input type="hidden" name="returnUrl" value="@currentUrl" />
                 <div class="modal-body p-4">
                     <h2 class="h5 fw-bold mb-2" id="deleteModalTitle">刪除這篇文章？</h2>
                     <p class="text-secondary mb-0">
