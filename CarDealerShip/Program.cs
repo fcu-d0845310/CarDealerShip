@@ -24,6 +24,8 @@ builder.Services.AddScoped<ICommentRepository, CommentRepositoryImpl>();
 builder.Services.AddScoped<ICarService, CarServiceImpl>();
 builder.Services.AddScoped<ICarRepository, CarRepositoryImpl>();
 builder.Services.AddScoped<IImageService, ImageServiceImpl>();
+builder.Services.AddScoped<IBranchService, BranchServiceImpl>();
+builder.Services.AddScoped<IBranchRepository, BranchRepositoryImpl>();
 //加入 Cookie 驗證
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

@@ -1,0 +1,135 @@
+@model CarDealerShip.ViewModels.BranchIndexViewModel
+@{
+    ViewData["Title"] = "分店管理";
+
+    //驗證失敗重新打開時，依有沒有Id決定是新增還是編輯
+    bool isEdit = Model.Form.Id != null;
+    string formAction = isEdit ? Url.Action("Edit", new { id = Model.Form.Id })! : Url.Action("Create")!;
+}
+
+@*返回車輛列表*@
+<a asp-controller="Car" asp-action="Index" class="small text-secondary text-decoration-none d-inline-block mb-3">‹ 返回車輛管理</a>
+
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+    <h1 class="h4 fw-bold m-0">
+        分店管理 <span class="fs-6 fw-normal text-secondary ms-1">@Model.Branches.Count 間</span>
+    </h1>
+    <button type="button" id="btnCreate" class="btn btn-dark"><i class="bi bi-plus-lg me-1"></i>新增分店</button>
+</div>
+
+@if (Model.Branches.Count == 0)
+{
+    <div class="text-center text-secondary py-5">目前沒有分店，請先新增分店</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr class="small text-secondary">
+                    <th>名稱</th>
+                    <th>地址</th>
+                    <th>電話</th>
+                    <th class="text-end">在庫</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Branches)
+                {
+                    <tr>
+                        <td class="fw-semibold text-nowrap">@item.Name</td>
+                        <td>@item.Address</td>
+                        <td class="text-nowrap">@item.Phone</td>
+                        <td class="text-end">@item.InstockCount</td>
+                        <td class="text-end">
+                            @*資料放在按鈕上，打開視窗時填進表單*@
+                            <button type="button" class="btn btn-sm btn-outline-secondary btn-edit"
+                                    data-id="@item.Id" data-name="@item.Name" data-address="@item.Address" data-phone="@item.Phone">
+                                編輯
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@*新增與編輯共用的彈出視窗*@
+<div class="modal fade" id="branchModal" tabindex="-1" aria-labelledby="branchModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form id="branchForm" action="@formAction" method="post" class="modal-content">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Form.Id" />
+
+            <div class="modal-header">
+                <h2 class="modal-title h5 fw-bold" id="branchModalTitle">@(isEdit ? "編輯分店" : "新增分店")</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label asp-for="Form.Name" class="form-label fw-semibold"></label>
+                    <input asp-for="Form.Name" class="form-control" />
+                    <span asp-validation-for="Form.Name" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Form.Address" class="form-label fw-semibold"></label>
+                    <input asp-for="Form.Address" class="form-control" />
+                    <span asp-validation-for="Form.Address" class="text-danger small"></span>
+                </div>
+                <div class="mb-1">
+                    <label asp-for="Form.Phone" class="form-label fw-semibold"></label>
+                    <input asp-for="Form.Phone" class="form-control" inputmode="numeric" placeholder="例如 042345678" />
+                    <span asp-validation-for="Form.Phone" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-dark px-4">儲存</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @*送出前先在瀏覽器檢查必填、長度與格式*@
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const modal = new bootstrap.Modal('#branchModal');
+        const $form = $('#branchForm');
+
+        //填入表單並清掉上一次的錯誤訊息
+        function openForm(title, action, data) {
+            $('#branchModalTitle').text(title);
+            $form.attr('action', action);
+            $('#Form_Id').val(data.id);
+            $('#Form_Name').val(data.name);
+            $('#Form_Address').val(data.address);
+            $('#Form_Phone').val(data.phone);
+            $form.validate().resetForm();
+            $form.find('.input-validation-error').removeClass('input-validation-error');
+            $form.find('.field-validation-error').empty();
+            modal.show();
+        }
+
+        //新增
+        $('#btnCreate').on('click', function () {
+            openForm('新增分店', '@Url.Action("Create")', { id: '', name: '', address: '', phone: '' });
+        });
+
+        //編輯，網址帶上分店Id
+        $('.btn-edit').on('click', function () {
+            const d = $(this).data();
+            openForm('編輯分店', '@Url.Action("Edit")/' + d.id, { id: d.id, name: d.name, address: d.address, phone: d.phone });
+        });
+
+        //伺服器驗證失敗時，進頁面就打開視窗並保留輸入內容與錯誤
+        @if (Model.ShowForm)
+        {
+            <text>modal.show();</text>
+        }
+    </script>
+}

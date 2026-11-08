@@ -1,4 +1,5 @@
-﻿using CarDealerShip.Data;
+﻿using CarDealerShip.Constants;
+using CarDealerShip.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDealerShip.Repository.RepositoryImpl
@@ -15,7 +16,8 @@ namespace CarDealerShip.Repository.RepositoryImpl
         public async Task<Dictionary<string, int>> GetCarCountByBranchAsync()
         {
             return await _appDbContext.Branches
-                .Select(x => new { Name = x.Name, Count = x.Cars.Count(c => c.Status != "已售出") })//排除狀態是售出的車輛
+                .Select(x => new { Name = x.Name, Count = x.Cars.Count(c => c.Status != CarStatus.Sold && c.Status != CarStatus.Removed
+                ) })//排除狀態是售出、下架的車輛
                 .ToDictionaryAsync(x => x.Name, x => x.Count);
         }
 

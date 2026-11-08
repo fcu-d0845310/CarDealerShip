@@ -1,6 +1,6 @@
 namespace CarDealerShip.Dtos.Auth
 {
-    //驗證通過的使用者資料，刻意不包含密碼
+    //驗證通過的使用者資料
     public class AuthUserDto
     {
         public int Id { get; set; }
