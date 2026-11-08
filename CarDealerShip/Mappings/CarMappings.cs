@@ -122,5 +122,22 @@ namespace CarDealerShip.Mappings
                 Description = vm.Description
             };
         }
+        //把新增表單轉成要寫入的資料
+        public static CarCreateDto ToCreateDto(this CarCreateViewModel vm)
+        {
+            return new CarCreateDto
+            {
+                BranchId = vm.BranchId!.Value,
+                Brand = vm.Brand,
+                Model = vm.Model,
+                Color = vm.Color,
+                ProductionYear = vm.ProductionYear,
+                Mileage = vm.Mileage,
+                Displacement = vm.Displacement,
+                CostPrice = vm.CostPrice,
+                SellingPrice = vm.SellingPrice,
+                Description = vm.Description
+            };
+        }
     }
 }

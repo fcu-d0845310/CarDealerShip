@@ -1,3 +1,4 @@
+using CarDealerShip.Constants;
 using CarDealerShip.Dtos.Car;
 using CarDealerShip.Dtos.Common;
 using CarDealerShip.Models;
@@ -5,10 +6,10 @@ using CarDealerShip.Repository;
 
 namespace CarDealerShip.Services.ServiceImpl
 {
+    //車輛的商業邏輯，查詢、新增、修改與圖片管理
     public class CarServiceImpl : ICarService
     {
         private const int CarPageSize = 12;//車輛列表每頁筆數
-
         private readonly ICarRepository _carRepository;
         private readonly IImageService _imageService;
         public CarServiceImpl(ICarRepository carRepository, IImageService imageService)
@@ -17,10 +18,13 @@ namespace CarDealerShip.Services.ServiceImpl
             _imageService = imageService;
         }
 
+        //==========查詢==========
+
+        //查詢單一車輛
         public async Task<CarDetailDto?> GetCarDetailAsync(int id)
         {
             var target = await _carRepository.GetCarByIdAsync(id);
-            if(target == null)
+            if (target == null)
             {
                 return null;
             }
@@ -48,6 +52,7 @@ namespace CarDealerShip.Services.ServiceImpl
             };
         }
 
+        //依條件分頁查詢車輛
         public async Task<PagedResult<CarListItemDto>> GetCarListAsync(CarQueryDto query)
         {
             var count = await _carRepository.CountCarsAsync(query.Brand, query.Model, query.Status, query.BranchId);
@@ -86,6 +91,7 @@ namespace CarDealerShip.Services.ServiceImpl
             };
         }
 
+        //列表篩選區的品牌與分店選項
         public async Task<CarFilterOptionsDto> GetFilterOptionsAsync()
         {
             var brands = await _carRepository.GetBrandsAsync();
@@ -98,6 +104,7 @@ namespace CarDealerShip.Services.ServiceImpl
             };
         }
 
+        //分店下拉選單
         public async Task<List<OptionDto>> GetBranchOptionsAsync()
         {
             var branches = await _carRepository.GetBranchesAsync();
@@ -109,10 +116,38 @@ namespace CarDealerShip.Services.ServiceImpl
             }).ToList();
         }
 
+        //==========新增==========
+
+        //新增車輛並上傳圖片，狀態固定為在庫，車輛與圖片一次寫入，回傳新車輛Id
+        public async Task<int> CreateCarAsync(CarCreateDto dto, List<IFormFile> images)
+        {
+            var car = new Car
+            {
+                BranchId = dto.BranchId,
+                Brand = dto.Brand,
+                Model = dto.Model,
+                Color = dto.Color,
+                ProductionYear = dto.ProductionYear,
+                Mileage = dto.Mileage,
+                Displacement = dto.Displacement,
+                CostPrice = dto.CostPrice,
+                SellingPrice = dto.SellingPrice,
+                Status = CarStatus.InStock,
+                Description = dto.Description
+            };
+
+            _carRepository.AddCar(car);//標記新增
+            await AddImagesAndSaveAsync(car, images);//存圖片檔並一次寫入車輛與圖片網址到資料庫
+            return car.Id;//存檔後才有Id
+        }
+
+        //==========修改==========
+
+        //更新車輛資料
         public async Task<bool> UpdateCarAsync(int id, CarUpdateDto dto)
         {
             var car = await _carRepository.GetCarForUpdateAsync(id);
-            if(car == null)
+            if (car == null)
             {
                 return false;
             }
@@ -128,53 +163,26 @@ namespace CarDealerShip.Services.ServiceImpl
             car.Status = dto.Status;
             car.Description = dto.Description;
 
-
-
             await _carRepository.SaveUpdateChangesAsync();
             return true;
         }
 
+        //==========圖片管理==========
+
+        //更新圖片到有車輛
         public async Task<bool> UploadImagesAsync(int carId, List<IFormFile> files)
         {
             var car = await _carRepository.GetCarForUpdateAsync(carId);
-
-            if(car == null)
+            if (car == null)
             {
                 return false;
             }
 
-            bool hasPrimary = car.CarImages.Any(x => x.IsPrimary == true);
-            var savedUrls = new List<string>();//已存檔的網址失敗時用來刪檔
-
-            try
-            {
-                foreach(var image in files)
-                {
-                    string url = await _imageService.SaveAsync(image);
-                    savedUrls.Add(url);
-
-                    car.CarImages.Add(new CarImage
-                    {
-                        ImageUrl = url,
-                        IsPrimary = !hasPrimary
-                    });
-                    hasPrimary = true;
-                }
-
-                await _carRepository.SaveUpdateChangesAsync();
-            }
-            catch
-            {
-                //存檔或寫入資料庫失敗，刪掉這次已存的檔案
-                foreach (var url in savedUrls)
-                {
-                    _imageService.Delete(url);
-                }
-                throw;
-            }
+            await AddImagesAndSaveAsync(car, files);
             return true;
         }
 
+        //刪除圖片，先寫入資料庫才刪除圖片
         public async Task<bool> DeleteImageAsync(int carId, int imageId)
         {
             var car = await _carRepository.GetCarForUpdateAsync(carId);
@@ -184,7 +192,7 @@ namespace CarDealerShip.Services.ServiceImpl
             }
             var target = car.CarImages.Where(x => x.Id == imageId).FirstOrDefault();
 
-            if(target == null)
+            if (target == null)
             {
                 return false;
             }
@@ -192,11 +200,11 @@ namespace CarDealerShip.Services.ServiceImpl
             string url = target.ImageUrl;
             bool isPrimary = target.IsPrimary;
             _carRepository.RemoveCarImage(target);
-            
-            if(isPrimary)
+
+            if (isPrimary)
             {
                 var tmp = car.CarImages.Where(img => img.Id != imageId).OrderBy(x => x.CreatedAt).FirstOrDefault();
-                if(tmp != null)
+                if (tmp != null)
                 {
                     tmp.IsPrimary = true;
                 }
@@ -206,6 +214,7 @@ namespace CarDealerShip.Services.ServiceImpl
             return true;
         }
 
+        //設定主圖
         public async Task<bool> SetPrimaryImageAsync(int carId, int imageId)
         {
             var car = await _carRepository.GetCarForUpdateAsync(carId);
@@ -230,5 +239,44 @@ namespace CarDealerShip.Services.ServiceImpl
             await _carRepository.SaveUpdateChangesAsync();
             return true;
         }
+
+        //==========共用私有方法==========
+
+        //逐張存檔並寫入資料庫，沒有主圖時第一張設為主圖，失敗時刪掉這次已存的檔案
+        private async Task AddImagesAndSaveAsync(Car car, List<IFormFile> files)
+        {
+
+            bool hasPrimary = car.CarImages.Any(x => x.IsPrimary == true);
+            var savedUrls = new List<string>();//已存檔的網址失敗時用來刪檔
+
+            try
+            {
+                foreach (var image in files)
+                {
+                    string url = await _imageService.SaveAsync(image);
+                    savedUrls.Add(url);
+
+                    car.CarImages.Add(new CarImage
+                    {
+                        ImageUrl = url,
+                        IsPrimary = !hasPrimary
+                    });
+                    hasPrimary = true;
+                }
+
+                await _carRepository.SaveUpdateChangesAsync();
+            }
+            catch
+            {
+                //存檔或寫入資料庫失敗，刪掉這次已存的檔案
+                foreach (var url in savedUrls)
+                {
+                    _imageService.Delete(url);
+                }
+                throw;
+            }
+        }
+
+
     }
 }

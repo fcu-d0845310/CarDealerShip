@@ -19,6 +19,8 @@
     <h1 class="h4 fw-bold m-0">
         車輛管理 <span class="fs-6 fw-normal text-secondary ms-1">@Model.TotalCount 台</span>
     </h1>
+    @*新增後回到目前的列表頁面*@
+    <a asp-action="Create" asp-route-returnUrl="@currentUrl" class="btn btn-dark"><i class="bi bi-plus-lg me-1"></i>新增車輛</a>
 </div>
 
 @if (!ViewData.ModelState.IsValid)

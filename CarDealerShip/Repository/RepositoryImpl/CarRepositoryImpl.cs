@@ -1,4 +1,5 @@
-﻿using CarDealerShip.Data;
+﻿using CarDealerShip.Constants;
+using CarDealerShip.Data;
 using CarDealerShip.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -76,7 +77,11 @@ namespace CarDealerShip.Repository.RepositoryImpl
         {
             _appDbContext.CarImages.Remove(image);
         }
-
+        //標記要新增的車輛
+        public void AddCar(Car car)
+        {
+            _appDbContext.Cars.Add(car);
+        }
 
         //篩選條件
         private IQueryable<Car> BuildCarQuery(string? brand, string? model, string? status, int? branchId)
@@ -97,6 +102,10 @@ namespace CarDealerShip.Repository.RepositoryImpl
             if (!string.IsNullOrEmpty(status))
             {
                 query = query.Where(c => c.Status == status);
+            }
+            else
+            {
+                query = query.Where(c => c.Status != CarStatus.Removed);
             }
 
             if (branchId != null)

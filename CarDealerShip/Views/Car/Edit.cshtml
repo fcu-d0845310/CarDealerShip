@@ -10,11 +10,78 @@
     var otherImages = Model.ExistingImages.Where(i => i != mainImage).ToList();
 }
 <style>
-    .edit-tile { background: #f4f4f5; }
-    .car-photo { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #e4e4e7; }
-    .car-photo-empty { display: grid; place-items: center; color: #a1a1aa; font-size: 2rem; }
-    .car-thumb { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #e4e4e7; }
-    .primary-badge { background: #fff; color: #3f3f46; border: 1px solid #e4e4e7; font-weight: 500; }
+    .edit-tile {
+        background: #f4f4f5;
+    }
+
+    .car-photo {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        background: #e4e4e7;
+    }
+
+    .car-photo-empty {
+        display: grid;
+        place-items: center;
+        color: #a1a1aa;
+        font-size: 2rem;
+    }
+
+    .car-thumb {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        background: #e4e4e7;
+    }
+
+    .primary-badge {
+        background: #fff;
+        color: #3f3f46;
+        border: 1px solid #e4e4e7;
+        font-weight: 500;
+    }
+
+    /*圖片外框，讓按鈕可以絕對定位*/
+    .img-box {
+        position: relative;
+    }
+        /*平常隱藏按鈕*/
+        .img-box .img-actions {
+            opacity: 0;
+            transition: opacity .15s;
+        }
+        /*滑鼠移入或鍵盤移到按鈕時顯示*/
+        .img-box:hover .img-actions,
+        .img-box:focus-within .img-actions {
+            opacity: 1;
+        }
+    /*沒有滑鼠的裝置一直顯示*/
+    @@media (hover: none) {
+        .img-box .img-actions {
+            opacity: 1;
+        }
+    }
+    /*圓形小按鈕*/
+    .img-btn {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(255,255,255,.92);
+        border: 0;
+        border-radius: 50%;
+        color: #3f3f46;
+    }
+
+        .img-btn:hover {
+            background: #fff;
+        }
+
+        .img-btn.danger:hover {
+            color: #dc3545;
+        }
 </style>
 
 @*返回列表*@
@@ -27,37 +94,90 @@
 </div>
 
 <div class="row g-3">
-    @*左欄：現有圖片，目前只顯示，上傳與刪除之後再做*@
+    @*左欄：圖片管理*@
     <div class="col-12 col-lg-5">
         <div class="edit-tile rounded-4 p-3">
-            <div class="position-relative">
-                @if (mainImage != null)
-                {
+
+            @*大圖*@
+            @if (mainImage != null)
+            {
+                <div class="img-box">
                     <img src="@mainImage.ImageUrl" alt="@Model.Brand @Model.Model" class="car-photo d-block rounded-3" />
                     @if (mainImage.IsPrimary)
                     {
                         <span class="badge rounded-pill primary-badge position-absolute top-0 start-0 m-2">主圖</span>
                     }
-                }
-                else
-                {
-                    <div class="car-photo car-photo-empty rounded-3"><i class="bi bi-image"></i></div>
-                }
-            </div>
 
+                    <div class="img-actions position-absolute top-0 end-0 m-2 d-flex gap-1">
+                        @*大圖不是主圖時才顯示設為主圖*@
+                        @if (!mainImage.IsPrimary)
+                        {
+                            <form asp-action="SetPrimaryImage" asp-route-id="@Model.Id" method="post">
+                                <input type="hidden" name="imageId" value="@mainImage.Id" />
+                                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                                <button type="submit" class="img-btn" title="設為主圖"><i class="bi bi-star"></i></button>
+                            </form>
+                        }
+
+                        <form asp-action="DeleteImage" asp-route-id="@Model.Id" method="post"
+                              onsubmit="return confirm('確定要刪除這張圖片嗎？');">
+                            <input type="hidden" name="imageId" value="@mainImage.Id" />
+                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                            <button type="submit" class="img-btn danger" title="刪除"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="car-photo car-photo-empty rounded-3"><i class="bi bi-image"></i></div>
+            }
+
+            @*縮圖*@
             @if (otherImages.Count > 0)
             {
                 <div class="row row-cols-3 g-2 mt-1">
                     @foreach (var image in otherImages)
                     {
                         <div class="col">
-                            <img src="@image.ImageUrl" alt="@Model.Brand @Model.Model" class="car-thumb d-block rounded-3" />
+                            <div class="img-box">
+                                <img src="@image.ImageUrl" alt="@Model.Brand @Model.Model" class="car-thumb d-block rounded-3" />
+
+                                <div class="img-actions position-absolute top-0 end-0 m-1 d-flex gap-1">
+                                    <form asp-action="SetPrimaryImage" asp-route-id="@Model.Id" method="post">
+                                        <input type="hidden" name="imageId" value="@image.Id" />
+                                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                                        <button type="submit" class="img-btn" title="設為主圖"><i class="bi bi-star"></i></button>
+                                    </form>
+
+                                    <form asp-action="DeleteImage" asp-route-id="@Model.Id" method="post"
+                                          onsubmit="return confirm('確定要刪除這張圖片嗎？');">
+                                        <input type="hidden" name="imageId" value="@image.Id" />
+                                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                                        <button type="submit" class="img-btn danger" title="刪除"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     }
                 </div>
             }
 
             <div class="small text-secondary mt-2">共 @Model.ExistingImages.Count 張圖片</div>
+
+            <hr class="my-3" />
+
+            @*上傳圖片*@
+            <form id="uploadForm" asp-action="UploadImages" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+
+                <label for="uploadFiles" class="form-label small fw-semibold mb-1">上傳圖片</label>
+                <input type="file" id="uploadFiles" name="Files" class="form-control form-control-sm"
+                       accept=".jpg,.jpeg,.png" multiple />
+                <div class="form-text">jpg、png，一次最多 10 張，每張 5MB 以內</div>
+
+                <button type="submit" class="btn btn-sm btn-dark w-100 mt-2"><i class="bi bi-upload me-1"></i>上傳</button>
+            </form>
         </div>
     </div>
 
@@ -162,4 +282,35 @@
 @section Scripts {
     @*送出前先在瀏覽器檢查必填、長度、範圍*@
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        //上傳前檢查張數與大小，避免超過上限直接看到413錯誤頁
+        $('#uploadForm').on('submit', function (e) {
+            const files = $('#uploadFiles')[0].files;
+            const maxCount = 10;
+            const maxSize = 5 * 1024 * 1024;
+
+            //沒選檔案
+            if (files.length === 0) {
+                alert('請先選擇圖片');
+                e.preventDefault();
+                return;
+            }
+
+            //超過張數
+            if (files.length > maxCount) {
+                alert('一次最多上傳 ' + maxCount + ' 張圖片');
+                e.preventDefault();
+                return;
+            }
+
+            //任一張超過大小
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].size > maxSize) {
+                    alert(files[i].name + ' 超過 5MB');
+                    e.preventDefault();
+                    return;
+                }
+            }
+        });
+    </script>
 }

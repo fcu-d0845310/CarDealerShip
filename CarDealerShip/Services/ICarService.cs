@@ -28,5 +28,8 @@ namespace CarDealerShip.Services
 
         //設定主圖片
         Task<bool> SetPrimaryImageAsync(int carId, int imageId);
+
+        //新增車輛並上傳圖片，回傳新車輛的 Id
+        Task<int> CreateCarAsync(CarCreateDto dto, List<IFormFile> images);
     }
 }

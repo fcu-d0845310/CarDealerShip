@@ -11,7 +11,7 @@ namespace CarDealerShip.Repository
         Task<Car?> GetCarByIdAsync(int id);
         Task<Car?> GetCarForUpdateAsync(int id);
         Task SaveUpdateChangesAsync();
-
         void RemoveCarImage(CarImage image);
+        void AddCar(Car car);
     }
 }
