@@ -3,6 +3,7 @@
 > 目前完成後台管理功能，訂單、出價、預約賞車、二手車估價等功能開發中。
 
 ![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/screenshots/car-edit.png)
 
 > 截圖中的分店、車輛與車輛圖片皆為示範資料
 
