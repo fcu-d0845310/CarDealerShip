@@ -4,7 +4,7 @@
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
-> 截圖中的分店、車輛與車輛圖片皆為示範資料，圖片為AI產生的示意圖。
+> 截圖中的分店、車輛與車輛圖片皆為示範資料
 
 ## 使用技術
 
